@@ -1,0 +1,25 @@
+{
+    "name": "floaush/common-entity-class-bundle",
+    "description": "Description incoming !",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Thomas Merlin",
+            "email": "dev.thomasmerlin@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "Floaush\\Bundle\\CommonEntityClass\\" : "src/"
+      }
+   },
+    "require": {
+      "php": "^7.1",
+      "symfony/orm-pack": "^1.0",
+      "symfony/validator": "^3.4",
+      "symfony/property-info": "^3.4",
+      "symfony/dependency-injection": "^3.4",
+      "symfony/framework-bundle": "^3.4",
+      "symfony/yaml": "^3.4"
+    }
+}
