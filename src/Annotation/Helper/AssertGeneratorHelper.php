@@ -32,12 +32,14 @@ class AssertGeneratorHelper
     }
 
     /**
-     * @param $entity
+     * Returns an associative array containing all the overridable fields.
+     *
+     * @param object $entity The current entity.
      *
      * @return array
      * @throws \ReflectionException
      */
-    public function getOverridableFields($entity)
+    public function getOverridableFields($entity): array
     {
         $messageOverriderAnnotation = $this->getMessageOverriderAnnotation($entity);
 
@@ -49,15 +51,15 @@ class AssertGeneratorHelper
     }
 
     /**
-     * Check if the annotation (@see MessageOverrider) is present for the given entity.
-     * Also return the annotation if @MessageOverrider annotation exists.
+     * Check if the annotation (@see AssertGenerator class) is present for the given entity.
+     * Also return the annotation if "AssertGenerator" annotation exists.
      *
-     * @param $entity
+     * @param object $entity The current entity.
      *
      * @return null|AssertGenerator
      * @throws \ReflectionException
      */
-    public function getMessageOverriderAnnotation($entity)
+    public function getMessageOverriderAnnotation($entity): ?AssertGenerator
     {
         $reflection = $this->getReflectionClassForClass($entity);
         return $this->annotationReader->getClassAnnotation(
@@ -69,30 +71,20 @@ class AssertGeneratorHelper
     /**
      * Create a (@see \ReflectionClass) instance for a given entity.
      *
-     * @param $entity
+     * @param object $entity The current entity.
      *
      * @return \ReflectionClass
      * @throws \ReflectionException
      */
-    public function getReflectionClassForClass($entity)
+    public function getReflectionClassForClass($entity): \ReflectionClass
     {
         return new \ReflectionClass(get_class($entity));
     }
 
     /**
-     * @param string           $property
-     * @param \ReflectionClass $reflectionClass
+     * Check if the array size exceed a fixed limit.
+     * Throws an NotValidArrayFormatException error if that's the case.
      *
-     * @return \ReflectionProperty
-     */
-    public function getReflectionPropertyForClass(
-        string $property,
-        \ReflectionClass $reflectionClass
-    ) {
-        return $reflectionClass->getProperty($property);
-    }
-
-    /**
      * @param array $array
      *
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException
@@ -111,7 +103,14 @@ class AssertGeneratorHelper
         }
     }
 
-    public function getClassProperties($className)
+    /**
+     * List of the properties for a given class name, using the extractors and PropertyInfo.
+     *
+     * @param string $className The name of the class.
+     *
+     * @return mixed|null|string[]
+     */
+    public function getClassProperties(string $className)
     {
         // a full list of extractors is shown further below
         $reflectionExtractor = new ReflectionExtractor();
@@ -138,12 +137,14 @@ class AssertGeneratorHelper
     }
 
     /**
-     * @param array $parameters
+     * Generate (more reorganize) the constraint's parameters and returns them all in an associative array.
+     *
+     * @param array $parameters The option parameters for the constraint.
      *
      * @return array
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException
      */
-    public function generateConstraintParameters(array $parameters)
+    public function generateConstraintParameters(array $parameters): array
     {
         $constraintParameters = [];
 

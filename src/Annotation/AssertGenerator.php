@@ -23,7 +23,7 @@ class AssertGenerator
     /**
      * MessageOverrider constructor.
      *
-     * @param array $options
+     * @param array $options The options of this annotation.
      */
     public function __construct(array $options)
     {
