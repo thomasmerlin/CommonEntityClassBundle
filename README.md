@@ -2,7 +2,7 @@
  
 CommonEntityClassBundle enables you to create classic mappings extremely fast, with full support constraint violations.
 
-- Installation
+- [Installation]
 - Documentation
 
 Features : 
@@ -20,3 +20,4 @@ License :
 This software is published under [MIT License].
 
 [MIT License]: https://github.com/thomasmerlin/CommonEntityClassBundle/blob/master/LICENSE.md
+[Installation]: https://github.com/thomasmerlin/CommonEntityClassBundle/blob/master/docs/Installation.md
