@@ -1,29 +1,32 @@
 {
-    "name": "floaush/common-entity-class-bundle",
-    "description": "CommonEntityClassBundle enables you to create classic mappings extremely fast.",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Thomas Merlin",
-            "email": "dev.thomasmerlin@gmail.com"
-        }
-    ],
-    "autoload": {
-      "psr-4": {
-        "Floaush\\Bundle\\CommonEntityClass\\" : "src/"
-      }
-   },
-    "require": {
-      "php": "^7.1",
-      "symfony/console": "^3.4",
-      "symfony/dependency-injection": "^3.4",
-      "symfony/flex": "^1.0",
-      "symfony/form": "^3.4",
-      "symfony/framework-bundle": "^3.4",
-      "symfony/lts": "^3",
-      "symfony/orm-pack": "^1.0",
-      "symfony/property-info": "^3.4",
-      "symfony/validator": "^3.4",
-      "symfony/yaml": "^3.4"
+  "name": "floaush/common-entity-class-bundle",
+  "description": "CommonEntityClassBundle enables you to create classic mappings extremely fast.",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Thomas Merlin",
+      "email": "dev.thomasmerlin@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Floaush\\Bundle\\CommonEntityClass\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.1",
+    "symfony/console": "^3.4",
+    "symfony/dependency-injection": "^3.4",
+    "symfony/flex": "^1.0",
+    "symfony/form": "^3.4",
+    "symfony/framework-bundle": "^3.4",
+    "symfony/lts": "^3",
+    "symfony/orm-pack": "^1.0",
+    "symfony/property-info": "^3.4",
+    "symfony/validator": "^3.4",
+    "symfony/yaml": "^3.4"
+  },
+  "config": {
+    "sort-packages": true
+  }
 }
