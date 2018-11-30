@@ -16,7 +16,7 @@
   },
   "require": {
     "php": ">=7.1",
-    "symfony/dependency-injection": "^3.4",
+    "symfony/dependency-injection": "^3.4 | ~4.0",
     "symfony/form": "^3.4 | ~4.0",
     "symfony/framework-bundle": "^3.4 | ~4.0",
     "symfony/orm-pack": "^1.0",
