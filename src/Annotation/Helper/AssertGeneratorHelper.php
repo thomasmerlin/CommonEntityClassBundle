@@ -7,7 +7,6 @@ use Floaush\Bundle\CommonEntityClass\Annotation\AssertGenerator;
 use Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException;
 use Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException;
 use Floaush\Bundle\CommonEntityClass\Exception\PropertyNotFoundException;
-use Symfony\Component\Debug\Exception\ClassNotFoundException;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 
