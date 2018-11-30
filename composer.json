@@ -15,17 +15,14 @@
     }
   },
   "require": {
-    "php": "^7.1",
-    "symfony/console": "^3.4",
+    "php": ">=7.1",
     "symfony/dependency-injection": "^3.4",
-    "symfony/flex": "^1.0",
-    "symfony/form": "^3.4",
-    "symfony/framework-bundle": "^3.4",
-    "symfony/lts": "^3",
+    "symfony/form": "^3.4 | ^4.0",
+    "symfony/framework-bundle": "^3.4 | ^4.0",
     "symfony/orm-pack": "^1.0",
-    "symfony/property-info": "^3.4",
-    "symfony/validator": "^3.4",
-    "symfony/yaml": "^3.4"
+    "symfony/property-info": "^3.4 | ^4.0",
+    "symfony/validator": "^3.4 | ^4.0",
+    "symfony/yaml": "^3.4 | ^4.0"
   },
   "config": {
     "sort-packages": true
