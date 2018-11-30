@@ -53,6 +53,7 @@ class AssertGeneratorSubscriber implements EventSubscriberInterface
     /**
      * @param \Symfony\Component\Form\FormEvent $event
      *
+     * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\PropertyNotFoundException
      * @throws \ReflectionException
@@ -74,31 +75,26 @@ class AssertGeneratorSubscriber implements EventSubscriberInterface
             $this->assertGeneratorHelper->checkArraySize($fieldArray);
 
             $property = $fieldArray[0];
-            $constraint = $fieldArray[1];
-            $constraintParameters = array_slice($fieldArray, 2);
-            $className = get_class($entity);
 
+            $constraintName = $fieldArray[1];
+            $constraintParameters = array_slice($fieldArray, 2);
+
+            $className = get_class($entity);
             $classProperties = $this->assertGeneratorHelper->getClassProperties($className);
 
-            /**
-             * Check if the property defined in the annotation exists in the class.
-             */
-            if (!in_array($property, $classProperties)) {
-                throw new PropertyNotFoundException(
-                    PropertyNotFoundException::generateExceptionMessage(
-                        $property,
-                        $classProperties,
-                        $className
-                    )
-                );
-            }
+            $this->assertGeneratorHelper->checkPropertyDefinition(
+                $property,
+                $className,
+                $classProperties
+            );
+            $this->assertGeneratorHelper->checkConstraintDefinition($constraintName);
 
-            $getter = 'get' . ucfirst($property);
+            $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraintName;
+            $fieldGetter = 'get' . ucfirst($property);
             $constraintParameters = $this->assertGeneratorHelper->generateConstraintParameters($constraintParameters);
-            $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraint;
 
             $violations = $this->validator->validate(
-                $entity->$getter(),
+                $entity->$fieldGetter(),
                 new $constraintClass($constraintParameters)
             );
 

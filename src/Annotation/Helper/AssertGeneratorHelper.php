@@ -4,7 +4,10 @@ namespace Floaush\Bundle\CommonEntityClass\Annotation\Helper;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Floaush\Bundle\CommonEntityClass\Annotation\AssertGenerator;
+use Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException;
 use Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException;
+use Floaush\Bundle\CommonEntityClass\Exception\PropertyNotFoundException;
+use Symfony\Component\Debug\Exception\ClassNotFoundException;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 
@@ -168,5 +171,70 @@ class AssertGeneratorHelper
         }
 
        return $constraintParameters;
+    }
+
+    /**
+     * Do multiple checks on the property value given to assert that the property is correct.
+     *
+     * @param        $property
+     * @param string $className
+     * @param array  $classProperties
+     *
+     * @throws \Floaush\Bundle\CommonEntityClass\Exception\PropertyNotFoundException
+     */
+    public function checkPropertyDefinition(
+        $property,
+        string $className,
+        array $classProperties
+    ) {
+        /**
+         * Check if the property given is a string or not.
+         */
+        if (!is_string($property)) {
+            throw new \InvalidArgumentException(
+                'Expected string type, got ' . gettype($property) . '.'
+            );
+        }
+
+        /**
+         * Check if the property defined in the annotation exists in the class.
+         */
+        if (!in_array($property, $classProperties)) {
+            throw new PropertyNotFoundException(
+                PropertyNotFoundException::generateExceptionMessage(
+                    $property,
+                    $classProperties,
+                    $className
+                )
+            );
+        }
+    }
+
+    /**
+     * Check the constraint given and asserts it is a well existing class
+     *
+     * @param $constraintName
+     *
+     * @throws \InvalidArgumentException
+     * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException
+     */
+    public function checkConstraintDefinition($constraintName)
+    {
+        /**
+         * Check if the constraint given is a string or not.
+         */
+        if (!is_string($constraintName)) {
+            throw new \InvalidArgumentException(
+                'Expected string type, got ' . gettype($constraintName) . '.'
+            );
+        }
+
+        $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraintName;
+
+        if (!class_exists($constraintClass)) {
+            throw new NotExistingClassException(
+                'Class "' . $constraintClass . '" does not exist.'
+            );
+        }
     }
 }
