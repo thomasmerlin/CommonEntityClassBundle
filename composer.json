@@ -1,6 +1,6 @@
 {
   "name": "floaush/common-entity-class-bundle",
-  "description": "CommonEntityClassBundle enables you to create classic mappings extremely fast.",
+  "description": "CommonEntityClassBundle enables you to create classic mappings quickly.",
   "type": "library",
   "minimum-stability" : "dev",
   "authors": [
