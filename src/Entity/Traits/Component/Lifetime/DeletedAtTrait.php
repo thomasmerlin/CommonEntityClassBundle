@@ -30,4 +30,12 @@ trait DeletedAtTrait
         $this->deletedAt = new \DateTime('now');
         return $this;
     }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->deletedAt;
+    }
 }
