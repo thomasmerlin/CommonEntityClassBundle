@@ -76,7 +76,7 @@ class AssertGeneratorSubscriber implements EventSubscriberInterface
             $property = $fieldArray[0];
 
             $constraintName = $fieldArray[1];
-            $constraintParameters = array_slice($fieldArray, 2);
+            $constraintParameters = $fieldArray[2];
 
             $className = get_class($entity);
             $classProperties = $this->assertGeneratorHelper->getClassProperties($className);
@@ -87,11 +87,14 @@ class AssertGeneratorSubscriber implements EventSubscriberInterface
                 $classProperties
             );
             $this->assertGeneratorHelper->checkConstraintDefinition($constraintName);
+            $this->assertGeneratorHelper->checkConstraintParametersDefinition($constraintParameters);
 
             $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraintName;
             $fieldGetter = 'get' . ucfirst($property);
-            $constraintParameters = $this->assertGeneratorHelper->generateConstraintParameters($constraintParameters);
 
+            /**
+             * @var \Symfony\Component\Validator\ConstraintViolationList $violations
+             */
             $violations = $this->validator->validate(
                 $entity->$fieldGetter(),
                 new $constraintClass($constraintParameters)
@@ -99,16 +102,14 @@ class AssertGeneratorSubscriber implements EventSubscriberInterface
 
             if (count($violations) > 0) {
                 $formProperty = $form->get($property);
-                if (array_key_exists('message', $constraintParameters) === true) {
+                /**
+                 * @var \Symfony\Component\Validator\ConstraintViolation $violation
+                 */
+                foreach ($violations->getIterator()->getArrayCopy() as $violation) {
                     $formProperty->addError(
-                        new FormError($constraintParameters['message'])
+                        new FormError($violation->getMessage())
                     );
-                    continue;
                 }
-
-                $formProperty->addError(
-                    new FormError((new $constraintClass())->message)
-                );
             }
         }
     }

@@ -139,40 +139,6 @@ class AssertGeneratorHelper
     }
 
     /**
-     * Generate (more reorganize) the constraint's parameters and returns them all in an associative array.
-     *
-     * @param array $parameters The option parameters for the constraint.
-     *
-     * @return array
-     * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException
-     */
-    public function generateConstraintParameters(array $parameters): array
-    {
-        $constraintParameters = [];
-
-        foreach ($parameters as $constraintParameter) {
-            $constraintParameterSize = count($constraintParameter);
-            if ($constraintParameterSize > self::CONSTRAINT_PARAMETER_ARRAY_SIZE) {
-                throw new NotValidArrayFormatException(
-                    NotValidArrayFormatException::generateExceptionMessage(
-                        $constraintParameterSize,
-                        self::CONSTRAINT_PARAMETER_ARRAY_SIZE
-                    )
-                );
-            }
-
-            $key = $constraintParameter[0];
-            $value = $constraintParameter[1];
-
-            if (array_key_exists($key, $constraintParameters) === false) {
-                $constraintParameters[$key] = $value;
-            }
-        }
-
-       return $constraintParameters;
-    }
-
-    /**
      * Do multiple checks on the property value given to assert that the property is correct.
      *
      * @param        $property
@@ -233,6 +199,23 @@ class AssertGeneratorHelper
         if (!class_exists($constraintClass)) {
             throw new NotExistingClassException(
                 'Class "' . $constraintClass . '" does not exist.'
+            );
+        }
+    }
+
+    /**
+     * Check if the constraint parameters argument is an array.
+     * Throws an error if that is not the case.
+     *
+     * @param $constraintParameters
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function checkConstraintParametersDefinition($constraintParameters)
+    {
+        if (is_array($constraintParameters) === false) {
+            throw new \InvalidArgumentException(
+                'Expected "array" type, got "' . gettype($constraintParameters) . '" instead.'
             );
         }
     }
