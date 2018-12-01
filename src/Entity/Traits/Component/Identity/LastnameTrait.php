@@ -1,6 +1,6 @@
 <?php
 
-namespace Floaush\Bundle\CommonEntityClass\Entity\Traits\Component;
+namespace Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Identity;
 
 use Doctrine\ORM\Mapping as ORM;
 

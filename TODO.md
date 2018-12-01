@@ -5,7 +5,7 @@ Constraint Generator :
 Mapping generator :
 -------------------
 - [ ] Trait for ``active / enable`` field.
-- [ ] Trait for ``updatedAt``, ``createdAt`` and ``deletedAt`` fields.
+- [X] Trait for ``updatedAt``, ``createdAt`` and ``deletedAt`` fields.
 - [ ] Update the Common User.
 
 Global :

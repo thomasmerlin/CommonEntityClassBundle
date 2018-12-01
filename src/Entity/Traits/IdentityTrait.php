@@ -2,8 +2,8 @@
 
 namespace Floaush\Bundle\CommonEntityClass\Entity\Traits;
 
-use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\FirstnameTrait;
-use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\LastnameTrait;
+use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Identity\FirstnameTrait;
+use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Identity\LastnameTrait;
 
 /**
  * Trait IdentityTrait
