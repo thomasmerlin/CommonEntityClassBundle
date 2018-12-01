@@ -1,6 +1,6 @@
  # CommonEntityClassBundle
  
-CommonEntityClassBundle enables you to create classic mappings extremely fast, with full support constraint violations.
+CommonEntityClassBundle enables you to create classic mappings quickly, with full support constraint violations.
 
 - [Installation]
 - Documentation
@@ -12,8 +12,9 @@ Features :
 
 Requirements :
 ------------------
-- PHP 7.1 and more (to support null return type)
-- Symfony 3.X or 4.X
+- **PHP 7.1 and more** (to support null return type)
+- **Symfony 3.X or 4.X**
+- Using **Doctrine** as an ORM
 
 License :
 ----------
