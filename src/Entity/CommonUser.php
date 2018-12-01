@@ -5,6 +5,7 @@ namespace Floaush\Bundle\CommonEntityClass\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\IdTrait;
 use Floaush\Bundle\CommonEntityClass\Entity\Traits\IdentityTrait;
+use Floaush\Bundle\CommonEntityClass\Entity\Traits\LifeTimeTrait;
 
 /**
  * Class CommonUser
@@ -14,7 +15,8 @@ use Floaush\Bundle\CommonEntityClass\Entity\Traits\IdentityTrait;
 class CommonUser
 {
     use
+        IdTrait,
         IdentityTrait,
-        IdTrait
+        LifeTimeTrait
     ;
 }

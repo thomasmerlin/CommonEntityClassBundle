@@ -1,44 +1,44 @@
 <?php
 
-namespace Floaush\Bundle\CommonEntityClass\Entity\Traits\Component;
+namespace Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Lifetime;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Trait CreatedAtTrait
+ * Trait UpdatedAtTrait
  * @package Floaush\Bundle\CommonEntityClass\Entity\Traits\Component
  * @ORM\HasLifecycleCallbacks()
  */
-trait CreatedAtTrait
+trait UpdatedAtTrait
 {
     /**
      * @ORM\Column(
-     *     name="createdAt",
+     *     name="updatedAt",
      *     type="datetime",
-     *     nullable=false,
+     *     nullable=true,
      *     unique=false
      * )
      *
      * @var \DateTime
      */
-    protected $createdAt;
+    protected $updatedAt;
 
     /**
-     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      *
      * @return self
      */
-    public function setCreatedAt(): self
+    public function setUpdatedAt(): self
     {
-        $this->createdAt = new \DateTime('now');
+        $this->updatedAt = new \DateTime('now');
         return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getCreatedAt(): \DateTime
+    public function getUpdatedAt(): \DateTime
     {
-        return $this->createdAt;
+        return $this->updatedAt;
     }
 }
