@@ -1,10 +1,10 @@
 services:
-    common_entity_class.assert_generator_helper:
-        class: Floaush\Bundle\CommonEntityClass\Annotation\Helper\AssertGeneratorHelper
+    common_entity_class.constraint_generator_helper:
+        class: Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper
         arguments:
             - "@annotations.reader"
-    common_entity_class.assert_generator_subscriber:
-        class: Floaush\Bundle\CommonEntityClass\EventListener\AssertGeneratorSubscriber
+    common_entity_class.constraint_generator_subscriber:
+        class: Floaush\Bundle\CommonEntityClass\EventListener\ConstraintGeneratorSubscriber
         arguments:
-            - "@common_entity_class.assert_generator_helper"
+            - "@common_entity_class.constraint_generator_helper"
             - "@validator"

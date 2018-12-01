@@ -5,15 +5,15 @@ namespace Floaush\Bundle\CommonEntityClass\Annotation;
 use Doctrine\Common\Annotations\Annotation;
 
 /**
- * Class AssertGenerator
+ * Class ConstraintGenerator
  * @package Floaush\Bundle\CommonEntityClass\Annotation
  * @Annotation
  * @Target("CLASS")
  */
-class AssertGenerator
+class ConstraintGenerator
 {
     const MAX_ARRAY_SIZE_ALLOWED = 3;
-    const INVALID_ARGUMENT_EXCEPTION_MESSAGE = "The annotation AssertGenerator must have an attribute 'fields'.";
+    const INVALID_ARGUMENT_EXCEPTION_MESSAGE = "The annotation ConstraintGenerator must have an attribute 'fields'.";
 
     /**
      * @var array List of fields having their error message being overriden.

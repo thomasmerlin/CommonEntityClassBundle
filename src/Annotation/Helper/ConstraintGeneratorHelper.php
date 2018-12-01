@@ -3,7 +3,7 @@
 namespace Floaush\Bundle\CommonEntityClass\Annotation\Helper;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Floaush\Bundle\CommonEntityClass\Annotation\AssertGenerator;
+use Floaush\Bundle\CommonEntityClass\Annotation\ConstraintGenerator;
 use Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException;
 use Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException;
 use Floaush\Bundle\CommonEntityClass\Exception\PropertyNotFoundException;
@@ -11,10 +11,10 @@ use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 
 /**
- * Class AssertGeneratorHelper
+ * Class ConstraintGeneratorHelper
  * @package Floaush\Bundle\CommonEntityClass\Annotation\Helper
  */
-class AssertGeneratorHelper
+class ConstraintGeneratorHelper
 {
     const CONSTRAINT_PARAMETER_ARRAY_SIZE = 2;
 
@@ -58,15 +58,15 @@ class AssertGeneratorHelper
      *
      * @param object $entity The current entity.
      *
-     * @return null|AssertGenerator
+     * @return null|ConstraintGenerator
      * @throws \ReflectionException
      */
-    public function getMessageOverriderAnnotation($entity): ?AssertGenerator
+    public function getMessageOverriderAnnotation($entity): ?ConstraintGenerator
     {
         $reflection = $this->getReflectionClassForClass($entity);
         return $this->annotationReader->getClassAnnotation(
             $reflection,
-            AssertGenerator::class
+            ConstraintGenerator::class
         );
     }
 
@@ -95,11 +95,11 @@ class AssertGeneratorHelper
     {
         $fieldArraySize = count($array);
 
-        if ($fieldArraySize > AssertGenerator::MAX_ARRAY_SIZE_ALLOWED) {
+        if ($fieldArraySize > ConstraintGenerator::MAX_ARRAY_SIZE_ALLOWED) {
             throw new NotValidArrayFormatException(
                 NotValidArrayFormatException::generateExceptionMessage(
                     $fieldArraySize,
-                    AssertGenerator::MAX_ARRAY_SIZE_ALLOWED
+                    ConstraintGenerator::MAX_ARRAY_SIZE_ALLOWED
                 )
             );
         }

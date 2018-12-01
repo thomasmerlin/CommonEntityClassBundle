@@ -2,7 +2,7 @@
 
 namespace Floaush\Bundle\CommonEntityClass\EventListener;
 
-use Floaush\Bundle\CommonEntityClass\Annotation\Helper\AssertGeneratorHelper;
+use Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -13,10 +13,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * Class AssertGeneratorSubscriber
  * @package Floaush\Bundle\CommonEntityClass\EventListener
  */
-class AssertGeneratorSubscriber implements EventSubscriberInterface
+class ConstraintGeneratorSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var \Floaush\Bundle\CommonEntityClass\Annotation\Helper\AssertGeneratorHelper $messageOverriderHelper
+     * @var \Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper $messageOverriderHelper
      */
     private $assertGeneratorHelper;
 
@@ -28,11 +28,11 @@ class AssertGeneratorSubscriber implements EventSubscriberInterface
     /**
      * MessageOverriderSubscriber constructor.
      *
-     * @param \Floaush\Bundle\CommonEntityClass\Annotation\Helper\AssertGeneratorHelper $assertGeneratorHelper
-     * @param \Symfony\Component\Validator\Validator\ValidatorInterface                 $validator
+     * @param \Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper $assertGeneratorHelper
+     * @param \Symfony\Component\Validator\Validator\ValidatorInterface                     $validator
      */
     public function __construct(
-        AssertGeneratorHelper $assertGeneratorHelper,
+        ConstraintGeneratorHelper $assertGeneratorHelper,
         ValidatorInterface $validator
     ) {
         $this->assertGeneratorHelper = $assertGeneratorHelper;
