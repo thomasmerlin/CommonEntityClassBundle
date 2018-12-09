@@ -9,7 +9,7 @@ Mapping generator :
 - [X] Trait for ``phoneNumber`` field.
 - [X] Trait for ``updatedAt``, ``createdAt`` and ``deletedAt`` fields.
 - [X] Trait for ``phoneNumber`` field.
-- [ ] Trait for ``roles`` field.
+- [X] Trait for ``roles`` field.
 
 Global :
 --------

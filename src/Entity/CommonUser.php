@@ -7,6 +7,7 @@ use Floaush\Bundle\CommonEntityClass\Entity\Associations\OneToOne\OtOUserGenderT
 use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\IdTrait;
 use Floaush\Bundle\CommonEntityClass\Entity\Traits\IdentityTrait;
 use Floaush\Bundle\CommonEntityClass\Entity\Traits\LifeTimeTrait;
+use Floaush\Bundle\CommonEntityClass\Entity\Traits\RolesTrait;
 use Floaush\Bundle\CommonEntityClass\Entity\Traits\StatusTrait;
 
 /**
@@ -20,6 +21,7 @@ class CommonUser
         IdTrait,
         IdentityTrait,
         StatusTrait,
+        RolesTrait,
         LifeTimeTrait
     ;
 
