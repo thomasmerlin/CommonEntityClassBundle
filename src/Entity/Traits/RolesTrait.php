@@ -20,4 +20,23 @@ trait RolesTrait
      * @var array
      */
     protected $roles = ['ROLE_USER'];
+
+    /**
+     * @param array $roles
+     *
+     * @return self
+     */
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
 }
