@@ -5,7 +5,7 @@ Constraint Generator :
 Mapping generator :
 -------------------
 ##### Common User
-- [ ] Trait for ``active / enable`` field.
+- [X] Trait for ``active / enable`` field.
 - [X] Trait for ``phoneNumber`` field.
 - [X] Trait for ``updatedAt``, ``createdAt`` and ``deletedAt`` fields.
 - [X] Trait for ``phoneNumber`` field.

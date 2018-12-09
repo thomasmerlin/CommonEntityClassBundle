@@ -16,7 +16,7 @@ trait PhoneNumberTrait
      *     type="string",
      *     length=15,
      *     nullable=true,
-     *     unique=true
+     *     unique=false
      * )
      *
      * @var string
