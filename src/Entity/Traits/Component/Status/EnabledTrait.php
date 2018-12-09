@@ -19,7 +19,7 @@ trait EnabledTrait
      *
      * @var boolean
      */
-    protected $enabled;
+    protected $enabled = false;
 
     /**
      * @return bool|null

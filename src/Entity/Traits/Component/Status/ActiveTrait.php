@@ -19,7 +19,7 @@ trait ActiveTrait
      *
      * @var boolean
      */
-    protected $active;
+    protected $active = false;
 
     /**
      * @return bool
