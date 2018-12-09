@@ -22,14 +22,6 @@ trait ActiveTrait
     protected $active;
 
     /**
-     * ActiveTrait constructor.
-     */
-    public function __construct()
-    {
-        $this->active = false;
-    }
-
-    /**
      * @return bool
      */
     public function isActive(): ?bool

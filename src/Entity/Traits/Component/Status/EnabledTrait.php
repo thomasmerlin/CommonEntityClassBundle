@@ -22,14 +22,6 @@ trait EnabledTrait
     protected $enabled;
 
     /**
-     * EnabledTrait constructor.
-     */
-    public function __construct()
-    {
-        $this->enabled = false;
-    }
-
-    /**
      * @return bool|null
      */
     public function isEnabled(): ?bool

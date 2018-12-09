@@ -11,6 +11,15 @@ use Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Status\EnabledTrait
  */
 trait StatusTrait
 {
+    /**
+     * StatusTrait constructor.
+     */
+    public function __construct()
+    {
+        $this->active = false;
+        $this->enabled = false;
+    }
+
     use
         ActiveTrait,
         EnabledTrait
