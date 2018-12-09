@@ -1,6 +1,6 @@
 <?php
 
-namespace Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Identity\Gender;
+namespace Floaush\Bundle\CommonEntityClass\Entity\Traits\Component\Gender;
 
 use Doctrine\ORM\Mapping as ORM;
 
