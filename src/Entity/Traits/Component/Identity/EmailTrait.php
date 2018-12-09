@@ -16,7 +16,7 @@ trait EmailTrait
      *     type="string",
      *     length=255,
      *     nullable=false,
-     *     unique=true
+     *     unique=false,
      * )
      *
      * @var string

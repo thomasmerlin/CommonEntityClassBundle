@@ -13,7 +13,7 @@ Features :
 Requirements :
 ------------------
 - **PHP 7.1 and more** (to support null return type)
-- **Symfony 3.X or 4.X**
+- **Symfony 3.4.X LTS or 4.X**
 - Using **Doctrine** as an ORM
 
 License :

@@ -84,28 +84,6 @@ class ConstraintGeneratorHelper
     }
 
     /**
-     * Check if the array size exceed a fixed limit.
-     * Throws an NotValidArrayFormatException error if that's the case.
-     *
-     * @param array $array
-     *
-     * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException
-     */
-    public function checkArraySize(array $array): void
-    {
-        $fieldArraySize = count($array);
-
-        if ($fieldArraySize > ConstraintGenerator::MAX_ARRAY_SIZE_ALLOWED) {
-            throw new NotValidArrayFormatException(
-                NotValidArrayFormatException::generateExceptionMessage(
-                    $fieldArraySize,
-                    ConstraintGenerator::MAX_ARRAY_SIZE_ALLOWED
-                )
-            );
-        }
-    }
-
-    /**
      * List of the properties for a given class name, using the extractors and PropertyInfo.
      *
      * @param string $className The name of the class.
@@ -178,24 +156,13 @@ class ConstraintGeneratorHelper
     /**
      * Check the constraint given and asserts it is a well existing class
      *
-     * @param $constraintName
+     * @param string $constraintClass
      *
      * @throws \InvalidArgumentException
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException
      */
-    public function checkConstraintDefinition($constraintName)
+    public function checkConstraintDefinition(string $constraintClass)
     {
-        /**
-         * Check if the constraint given is a string or not.
-         */
-        if (!is_string($constraintName)) {
-            throw new \InvalidArgumentException(
-                'Expected string type, got ' . gettype($constraintName) . '.'
-            );
-        }
-
-        $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraintName;
-
         if (!class_exists($constraintClass)) {
             throw new NotExistingClassException(
                 'Class "' . $constraintClass . '" does not exist.'
@@ -207,15 +174,31 @@ class ConstraintGeneratorHelper
      * Check if the constraint parameters argument is an array.
      * Throws an error if that is not the case.
      *
-     * @param $constraintParameters
+     * @param string $constraintClass
+     * @param array $constraintParameters
      *
      * @throws \InvalidArgumentException
      */
-    public function checkConstraintParametersDefinition($constraintParameters)
-    {
+    public function checkConstraintParametersDefinition(
+        string $constraintClass,
+        array $constraintParameters
+    ) {
         if (is_array($constraintParameters) === false) {
             throw new \InvalidArgumentException(
                 'Expected "array" type, got "' . gettype($constraintParameters) . '" instead.'
+            );
+        }
+
+        $constraintProperties = $this->getClassProperties($constraintClass);
+        $uncommonProperties = array_diff(array_keys($constraintParameters), $constraintProperties);
+
+        if (count($uncommonProperties) > 0) {
+            throw new PropertyNotFoundException(
+                PropertyNotFoundException::generateExceptionMessage(
+                    $uncommonProperties,
+                    $constraintProperties,
+                    $constraintClass
+                )
             );
         }
     }

@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -16,9 +17,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ConstraintGeneratorSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var \Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper $messageOverriderHelper
+     * @var \Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper $constraintGeneratorHelper
      */
-    private $assertGeneratorHelper;
+    private $constraintGeneratorHelper;
 
     /**
      * @var \Symfony\Component\Validator\Validator\ValidatorInterface $validator
@@ -28,14 +29,14 @@ class ConstraintGeneratorSubscriber implements EventSubscriberInterface
     /**
      * MessageOverriderSubscriber constructor.
      *
-     * @param \Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper $assertGeneratorHelper
+     * @param \Floaush\Bundle\CommonEntityClass\Annotation\Helper\ConstraintGeneratorHelper $constraintGeneratorHelper
      * @param \Symfony\Component\Validator\Validator\ValidatorInterface                     $validator
      */
     public function __construct(
-        ConstraintGeneratorHelper $assertGeneratorHelper,
+        ConstraintGeneratorHelper $constraintGeneratorHelper,
         ValidatorInterface $validator
     ) {
-        $this->assertGeneratorHelper = $assertGeneratorHelper;
+        $this->constraintGeneratorHelper = $constraintGeneratorHelper;
         $this->validator = $validator;
     }
 
@@ -53,7 +54,6 @@ class ConstraintGeneratorSubscriber implements EventSubscriberInterface
      * @param \Symfony\Component\Form\FormEvent $event
      *
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException
-     * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotValidArrayFormatException
      * @throws \Floaush\Bundle\CommonEntityClass\Exception\PropertyNotFoundException
      * @throws \ReflectionException
      */
@@ -62,54 +62,80 @@ class ConstraintGeneratorSubscriber implements EventSubscriberInterface
         $entity = $event->getData();
         $form = $event->getForm();
 
-        $messageOverriderAnnotation = $this->assertGeneratorHelper->getMessageOverriderAnnotation($entity);
+        $constraintGeneratorAnnotation = $this->constraintGeneratorHelper->getMessageOverriderAnnotation($entity);
 
-        if ($messageOverriderAnnotation === null) {
+        if ($constraintGeneratorAnnotation === null) {
             return;
         }
 
-        $overridableFields = $this->assertGeneratorHelper->getOverridableFields($entity);
+        $overridableFields = $this->constraintGeneratorHelper->getOverridableFields($entity);
 
-        foreach ($overridableFields as $fieldArray) {
-            $this->assertGeneratorHelper->checkArraySize($fieldArray);
+        $className = get_class($entity);
+        $classProperties = $this->constraintGeneratorHelper->getClassProperties($className);
 
-            $property = $fieldArray[0];
-
-            $constraintName = $fieldArray[1];
-            $constraintParameters = $fieldArray[2];
-
-            $className = get_class($entity);
-            $classProperties = $this->assertGeneratorHelper->getClassProperties($className);
-
-            $this->assertGeneratorHelper->checkPropertyDefinition(
+        foreach ($overridableFields as $property => $constraints) {
+            $this->constraintGeneratorHelper->checkPropertyDefinition(
                 $property,
                 $className,
                 $classProperties
             );
-            $this->assertGeneratorHelper->checkConstraintDefinition($constraintName);
-            $this->assertGeneratorHelper->checkConstraintParametersDefinition($constraintParameters);
 
-            $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraintName;
-            $fieldGetter = 'get' . ucfirst($property);
+            foreach ($constraints as $constraint => $parameters) {
+                $this->handleConstraintForProperty(
+                    $form,
+                    $entity,
+                    $property,
+                    $constraint,
+                    $parameters
+                );
+            }
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form
+     * @param mixed                                 $entity
+     * @param string                                $property
+     * @param string                                $constraint
+     * @param array                                 $parameters
+     *
+     * @throws \Floaush\Bundle\CommonEntityClass\Exception\NotExistingClassException
+     */
+    public function handleConstraintForProperty(
+        FormInterface $form,
+        $entity,
+        string $property,
+        string $constraint,
+        array $parameters
+    ) {
+        $constraintClass = "Symfony\\Component\\Validator\\Constraints\\" . $constraint;
+
+        $this->constraintGeneratorHelper->checkConstraintDefinition($constraintClass);
+        $this->constraintGeneratorHelper->checkConstraintParametersDefinition(
+            $constraintClass,
+            $parameters
+        );
+
+        $fieldGetter = 'get' . ucfirst($property);
+
+        /**
+         * @var \Symfony\Component\Validator\ConstraintViolationList $violations
+         */
+        $violations = $this->validator->validate(
+            $entity->$fieldGetter(),
+            new $constraintClass($parameters)
+        );
+
+        if (count($violations) > 0) {
+            $formProperty = $form->get($property);
 
             /**
-             * @var \Symfony\Component\Validator\ConstraintViolationList $violations
+             * @var \Symfony\Component\Validator\ConstraintViolation $violation
              */
-            $violations = $this->validator->validate(
-                $entity->$fieldGetter(),
-                new $constraintClass($constraintParameters)
-            );
-
-            if (count($violations) > 0) {
-                $formProperty = $form->get($property);
-                /**
-                 * @var \Symfony\Component\Validator\ConstraintViolation $violation
-                 */
-                foreach ($violations->getIterator()->getArrayCopy() as $violation) {
-                    $formProperty->addError(
-                        new FormError($violation->getMessage())
-                    );
-                }
+            foreach ($violations->getIterator()->getArrayCopy() as $violation) {
+                $formProperty->addError(
+                    new FormError($violation->getMessage())
+                );
             }
         }
     }
